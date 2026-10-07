@@ -227,7 +227,14 @@ document.querySelector("#auth-form").addEventListener("submit", async (event) =>
   button.disabled = true;
   showAuthMessage("");
   const result = signUpMode
-    ? await db.auth.signUp({ email, password, options: { data: { display_name: displayName || email.split("@")[0] } } })
+    ? await db.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { display_name: displayName || email.split("@")[0] },
+        emailRedirectTo: `${window.location.origin}${window.location.pathname}`,
+      },
+    })
     : await db.auth.signInWithPassword({ email, password });
   button.disabled = false;
   if (result.error) return showAuthMessage(result.error.message);
