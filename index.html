@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daymark — Goals that add up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#"><span class="brand-mark">✦</span> daymark</a>
+        <nav aria-label="Main navigation">
+          <a class="nav-item active" href="#today"><span>⌂</span> Today</a>
+          <a class="nav-item" href="#progress"><span>◔</span> Progress</a>
+          <a class="nav-item" href="#team"><span>♙</span> Team</a>
+          <a class="nav-item" href="#settings"><span>⚙</span> Goals</a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="profile-avatar">AS</div>
+          <div><strong>Alex Smith</strong><small>Personal workspace</small></div>
+          <button class="more-button" aria-label="More options">•••</button>
+        </div>
+      </aside>
+
+      <main>
+        <section id="today" class="page-header">
+          <div>
+            <p class="eyebrow">WEDNESDAY, OCTOBER 7</p>
+            <h1>A little progress, every day.</h1>
+            <p class="subtitle">You’re building a 5-day streak. Keep the momentum going.</p>
+          </div>
+          <div class="date-chip">Today <span>⌄</span></div>
+        </section>
+
+        <section class="today-grid">
+          <article class="card daily-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">TODAY'S GOALS</p>
+                <h2><span id="completed-count">3</span> of 5 complete</h2>
+              </div>
+              <div class="progress-ring" id="progress-ring"><span id="percent-count">60%</span></div>
+            </div>
+            <div id="goal-list" class="goal-list"></div>
+            <button id="add-goal" class="text-button">+ Add a goal</button>
+          </article>
+
+          <article class="card streak-card">
+            <div class="streak-icon">↗</div>
+            <p class="eyebrow">CURRENT STREAK</p>
+            <div class="streak-number">5 <span>days</span></div>
+            <p class="streak-copy">Your best streak is 12 days.<br />You’re nearly halfway there.</p>
+            <div class="mini-days" aria-label="This week's completion">
+              <span class="done">M</span><span class="done">T</span><span class="done">W</span><span class="done">T</span><span class="done">F</span><span class="today-day">S</span><span>S</span>
+            </div>
+          </article>
+        </section>
+
+        <section id="progress" class="section">
+          <div class="section-header">
+            <div><p class="eyebrow">YOUR PROGRESS</p><h2>Consistency over time</h2></div>
+            <div class="segmented-control">
+              <button class="range-button active" data-range="week">Week</button>
+              <button class="range-button" data-range="month">Month</button>
+            </div>
+          </div>
+          <article class="card chart-card">
+            <div class="chart-stats">
+              <div><span class="stat-label">COMPLETION RATE</span><strong id="completion-rate">76%</strong><em id="rate-change">↑ 8% vs last week</em></div>
+              <div><span class="stat-label">GOALS COMPLETED</span><strong id="goals-total">27</strong><em>of 35 planned</em></div>
+              <div><span class="stat-label">BEST DAY</span><strong id="best-day">Friday</strong><em>All 5 goals done</em></div>
+            </div>
+            <div id="bar-chart" class="bar-chart" aria-label="Goal completion chart"></div>
+          </article>
+        </section>
+
+        <section id="team" class="section">
+          <div class="section-header">
+            <div><p class="eyebrow">YOUR CIRCLE</p><h2>Friendly accountability</h2></div>
+            <button class="invite-button">+ Invite people</button>
+          </div>
+          <article class="card leaderboard-card">
+            <div class="leaderboard-title"><span>This week</span><span>Completed</span><span>Rate</span></div>
+            <div id="leaderboard"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <template id="goal-template">
+      <label class="goal-row">
+        <input type="checkbox" />
+        <span class="checkmark">✓</span>
+        <span class="goal-name"></span>
+        <span class="goal-category"></span>
+      </label>
+    </template>
+    <script src="app.js"></script>
+  </body>
+</html>
