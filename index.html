@@ -16,17 +16,21 @@
         <nav aria-label="Main navigation">
           <a class="nav-item active" href="#today"><span>⌂</span> Today</a>
           <a class="nav-item" href="#progress"><span>◔</span> Progress</a>
-          <a class="nav-item" href="#team"><span>♙</span> Team</a>
+          <a class="nav-item" href="#team"><span>♙</span> Circle</a>
           <a class="nav-item" href="#settings"><span>⚙</span> Goals</a>
         </nav>
         <div class="sidebar-bottom">
           <div class="profile-avatar">AS</div>
-          <div><strong>Alex Smith</strong><small>Personal workspace</small></div>
-          <button class="more-button" aria-label="More options">•••</button>
+          <div><strong id="profile-name">Alex Smith</strong><small id="profile-subtitle">Demo workspace</small></div>
+          <button id="account-button" class="more-button" aria-label="Sign in or account options">•••</button>
         </div>
       </aside>
 
       <main>
+        <div id="demo-banner" class="demo-banner">
+          <span>You're viewing a demo.</span>
+          <button id="banner-sign-in">Sign in to save your progress</button>
+        </div>
         <section id="today" class="page-header">
           <div>
             <p class="eyebrow">WEDNESDAY, OCTOBER 7</p>
@@ -91,6 +95,21 @@
       </main>
     </div>
 
+    <dialog id="auth-dialog" class="auth-dialog">
+      <button id="close-auth" class="close-dialog" aria-label="Close">×</button>
+      <p class="eyebrow">MAKE IT YOURS</p>
+      <h2>Save your goals.</h2>
+      <p class="auth-copy">Create an account to track your own goals from any device.</p>
+      <form id="auth-form">
+        <label>Name<input id="auth-name" type="text" placeholder="Alex Smith" /></label>
+        <label>Email<input id="auth-email" type="email" placeholder="you@example.com" required /></label>
+        <label>Password<input id="auth-password" type="password" minlength="8" placeholder="At least 8 characters" required /></label>
+        <button id="auth-submit" class="auth-submit" type="submit">Create account</button>
+      </form>
+      <p id="auth-message" class="auth-message"></p>
+      <button id="toggle-auth-mode" class="toggle-auth" type="button">Already have an account? Sign in</button>
+    </dialog>
+
     <template id="goal-template">
       <label class="goal-row">
         <input type="checkbox" />
@@ -99,6 +118,8 @@
         <span class="goal-category"></span>
       </label>
     </template>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
