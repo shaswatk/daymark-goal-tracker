@@ -6,6 +6,6 @@
  * secret/service_role key to this file.
  */
 window.DAYMARK_CONFIG = {
-  supabaseUrl: "https://cwjxyjezwrbtncntotd.supabase.co",
+  supabaseUrl: "https://cwjxyjezewrbtncntotd.supabase.co",
   supabasePublishableKey: "sb_publishable_rf35t3l79q_G1ygnENLD-A_007WVCXB",
 };
