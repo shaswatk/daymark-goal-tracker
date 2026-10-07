@@ -43,6 +43,12 @@ create table public.circle_members (
   primary key (circle_id, user_id)
 );
 
+-- The Data API can access only these explicit tables. This lets the project
+-- keep "Automatically expose new tables" turned off during project creation.
+revoke all on schema public from anon, authenticated;
+grant usage on schema public to anon, authenticated;
+grant select, insert, update, delete on public.profiles, public.goals, public.goal_checkins, public.circles, public.circle_members to authenticated;
+
 alter table public.profiles enable row level security;
 alter table public.goals enable row level security;
 alter table public.goal_checkins enable row level security;
