@@ -218,6 +218,17 @@ document.querySelector("#account-button").addEventListener("click", openAuthDial
 document.querySelector("#banner-sign-in").addEventListener("click", openAuthDialog);
 document.querySelector("#close-auth").addEventListener("click", () => authDialog.close());
 document.querySelector("#toggle-auth-mode").addEventListener("click", () => setAuthMode(!signUpMode));
+document.querySelector("#google-auth").addEventListener("click", async () => {
+  const button = document.querySelector("#google-auth");
+  button.disabled = true;
+  showAuthMessage("");
+  const { error } = await db.auth.signInWithOAuth({
+    provider: "google",
+    options: { redirectTo: `${window.location.origin}${window.location.pathname}` },
+  });
+  button.disabled = false;
+  if (error) showAuthMessage(error.message);
+});
 document.querySelector("#auth-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const email = document.querySelector("#auth-email").value.trim();
