@@ -13,7 +13,7 @@ const goalList = document.querySelector("#goal-list");
 const goalTemplate = document.querySelector("#goal-template");
 const barChart = document.querySelector("#bar-chart");
 const authDialog = document.querySelector("#auth-dialog");
-let goals = [...demoGoals];
+let goals = [];
 let currentUser = null;
 let activeCircle = null;
 let selectedRange = "week";
@@ -38,6 +38,26 @@ function updateTodayCopy() {
   document.querySelector("#today-label").textContent = now.toLocaleDateString(undefined, {
     weekday: "long", month: "long", day: "numeric",
   }).toUpperCase();
+}
+
+function finishLoading() {
+  document.body.classList.remove("is-loading");
+  document.querySelector("#app-loader").hidden = true;
+}
+
+function showDemoDashboard() {
+  currentUser = null;
+  goals = [...demoGoals];
+  document.querySelector("#demo-banner").hidden = false;
+  document.querySelector("#profile-name").textContent = "Alex Smith";
+  document.querySelector(".profile-avatar").textContent = "AS";
+  document.querySelector("#profile-subtitle").textContent = "Demo workspace";
+  renderGoals();
+  updateProgress();
+  renderDemoChart();
+  renderStreak();
+  renderLeaderboard();
+  finishLoading();
 }
 
 function renderGoals() {
@@ -316,6 +336,7 @@ async function onSignedIn(user) {
   document.querySelector("#profile-subtitle").textContent = "Personal workspace";
   document.querySelector("#demo-banner").hidden = true;
   await refreshDashboard();
+  finishLoading();
   const inviteCode = new URLSearchParams(window.location.search).get("join");
   if (inviteCode) await joinCircle(inviteCode);
 }
@@ -365,13 +386,26 @@ document.querySelector("#google-auth").addEventListener("click", async () => {
   if (error) document.querySelector("#auth-message").textContent = error.message;
 });
 
-updateTodayCopy();
-renderGoals();
-updateProgress();
-renderDemoChart();
-renderStreak();
-renderLeaderboard();
-if (isConfigured) {
-  db.auth.getSession().then(({ data: { session } }) => session && onSignedIn(session.user));
-  db.auth.onAuthStateChange((_event, session) => session && onSignedIn(session.user));
+async function initializeApp() {
+  updateTodayCopy();
+  if (!isConfigured) {
+    showDemoDashboard();
+    return;
+  }
+
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    if (session) await onSignedIn(session.user);
+    else showDemoDashboard();
+  } catch (error) {
+    console.error("Could not restore the Daymark session.", error);
+    showDemoDashboard();
+  }
+
+  db.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_IN" && session && currentUser?.id !== session.user.id) onSignedIn(session.user);
+    if (event === "SIGNED_OUT") showDemoDashboard();
+  });
 }
+
+initializeApp();
