@@ -33,9 +33,9 @@
         </div>
         <section id="today" class="page-header">
           <div>
-            <p class="eyebrow">WEDNESDAY, OCTOBER 7</p>
+            <p id="today-label" class="eyebrow">TODAY</p>
             <h1>A little progress, every day.</h1>
-            <p class="subtitle">You’re building a 5-day streak. Keep the momentum going.</p>
+            <p id="hero-subtitle" class="subtitle">Start small. Your progress will add up.</p>
           </div>
           <div class="date-chip">Today <span>⌄</span></div>
         </section>
@@ -45,7 +45,7 @@
             <div class="card-heading">
               <div>
                 <p class="eyebrow">TODAY'S GOALS</p>
-                <h2><span id="completed-count">3</span> of 5 complete</h2>
+                <h2><span id="completed-count">3</span> of <span id="goal-total">5</span> complete</h2>
               </div>
               <div class="progress-ring" id="progress-ring"><span id="percent-count">60%</span></div>
             </div>
@@ -56,11 +56,9 @@
           <article class="card streak-card">
             <div class="streak-icon">↗</div>
             <p class="eyebrow">CURRENT STREAK</p>
-            <div class="streak-number">5 <span>days</span></div>
-            <p class="streak-copy">Your best streak is 12 days.<br />You’re nearly halfway there.</p>
-            <div class="mini-days" aria-label="This week's completion">
-              <span class="done">M</span><span class="done">T</span><span class="done">W</span><span class="done">T</span><span class="done">F</span><span class="today-day">S</span><span>S</span>
-            </div>
+            <div class="streak-number"><span id="streak-count">0</span> <span>days</span></div>
+            <p id="streak-copy" class="streak-copy">Complete all your goals today to begin a streak.</p>
+            <div id="mini-days" class="mini-days" aria-label="This week's completion"></div>
           </article>
         </section>
 
@@ -85,10 +83,13 @@
         <section id="team" class="section">
           <div class="section-header">
             <div><p class="eyebrow">YOUR CIRCLE</p><h2>Friendly accountability</h2></div>
-            <button class="invite-button">+ Invite people</button>
+            <div class="circle-actions">
+              <button id="join-circle" class="invite-button">Join with code</button>
+              <button id="create-circle" class="invite-button primary">+ Create circle</button>
+            </div>
           </div>
           <article class="card leaderboard-card">
-            <div class="leaderboard-title"><span>This week</span><span>Completed</span><span>Rate</span></div>
+            <div id="circle-title" class="leaderboard-title"><span>Your circle</span><span>Completed</span><span>Rate</span></div>
             <div id="leaderboard"></div>
           </article>
         </section>
@@ -99,17 +100,9 @@
       <button id="close-auth" class="close-dialog" aria-label="Close">×</button>
       <p class="eyebrow">MAKE IT YOURS</p>
       <h2>Save your goals.</h2>
-      <p class="auth-copy">Create an account to track your own goals from any device.</p>
+      <p class="auth-copy">Sign in with Google to track your own goals from any device.</p>
       <button id="google-auth" class="google-auth" type="button"><span>G</span> Continue with Google</button>
-      <div class="auth-divider"><span>or continue with email</span></div>
-      <form id="auth-form">
-        <label>Name<input id="auth-name" type="text" placeholder="Alex Smith" /></label>
-        <label>Email<input id="auth-email" type="email" placeholder="you@example.com" required /></label>
-        <label>Password<input id="auth-password" type="password" minlength="8" placeholder="At least 8 characters" required /></label>
-        <button id="auth-submit" class="auth-submit" type="submit">Create account</button>
-      </form>
       <p id="auth-message" class="auth-message"></p>
-      <button id="toggle-auth-mode" class="toggle-auth" type="button">Already have an account? Sign in</button>
     </dialog>
 
     <template id="goal-template">
@@ -118,6 +111,10 @@
         <span class="checkmark">✓</span>
         <span class="goal-name"></span>
         <span class="goal-category"></span>
+        <span class="goal-actions">
+          <button class="goal-action edit-goal" type="button" aria-label="Edit goal">Edit</button>
+          <button class="goal-action delete-goal" type="button" aria-label="Delete goal">×</button>
+        </span>
       </label>
     </template>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
