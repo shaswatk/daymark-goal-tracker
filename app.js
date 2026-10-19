@@ -214,7 +214,13 @@ document.querySelector("#add-goal").addEventListener("click", async () => {
   renderGoals();
   updateProgress();
 });
-document.querySelector("#account-button").addEventListener("click", openAuthDialog);
+document.querySelector("#account-button").addEventListener("click", async () => {
+  if (!currentUser) return openAuthDialog();
+  if (!window.confirm("Log out of Daymark?")) return;
+  const { error } = await db.auth.signOut();
+  if (error) return window.alert(`Couldn’t log out: ${error.message}`);
+  window.location.reload();
+});
 document.querySelector("#banner-sign-in").addEventListener("click", openAuthDialog);
 document.querySelector("#close-auth").addEventListener("click", () => authDialog.close());
 document.querySelector("#toggle-auth-mode").addEventListener("click", () => setAuthMode(!signUpMode));
